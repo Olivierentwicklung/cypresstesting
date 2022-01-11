@@ -1,0 +1,127 @@
+{
+  "version": 1,
+  "projects": {
+    "first-testing": {
+      "projectType": "application",
+      "root": "apps/first-testing",
+      "sourceRoot": "apps/first-testing/src",
+      "prefix": "testinge2e",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/first-testing",
+            "index": "apps/first-testing/src/index.html",
+            "main": "apps/first-testing/src/main.ts",
+            "polyfills": "apps/first-testing/src/polyfills.ts",
+            "tsConfig": "apps/first-testing/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "apps/first-testing/src/favicon.ico",
+              "apps/first-testing/src/assets"
+            ],
+            "styles": ["apps/first-testing/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/first-testing/src/environments/environment.ts",
+                  "with": "apps/first-testing/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "first-testing:build:production"
+            },
+            "development": {
+              "browserTarget": "first-testing:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "first-testing:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/first-testing/src/**/*.ts",
+              "apps/first-testing/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/first-testing"],
+          "options": {
+            "jestConfig": "apps/first-testing/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
+    "first-testing-e2e": {
+      "root": "apps/first-testing-e2e",
+      "sourceRoot": "apps/first-testing-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/first-testing-e2e/cypress.json",
+            "devServerTarget": "first-testing:serve:development"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "first-testing:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/first-testing-e2e/**/*.{js,ts}"]
+          }
+        }
+      },
+      "tags": [],
+      "implicitDependencies": ["first-testing"]
+    }
+  }
+}
